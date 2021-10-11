@@ -6,7 +6,6 @@ import javax.swing.*
 import javax.swing.event.ChangeEvent
 import javax.swing.event.ChangeListener
 
-
 class MainFrame : JFrame(){
 
     val mainPanel: GraphicsPanel
@@ -64,16 +63,15 @@ class MainFrame : JFrame(){
         yMaxM = SpinnerNumberModel(5.0, -4.9, 100.0, 0.1)
         yMax = JSpinner(yMaxM)
 
-//        xMin.addChangeListener(object : ChangeListener {
-//            override fun stateChanged(e: ChangeEvent?) {
-//                xMaxM.minimum = (xMinM.value as Double + 0.1)
-//            }
-//        })
-
-        xMin.addChangeListener{ xMaxM.minimum = (xMinM.value as Double + 0.1) }
-        xMax.addChangeListener{ xMinM.maximum = (xMaxM.value as Double - 0.1) }
-        yMin.addChangeListener{ yMaxM.minimum = (yMinM.value as Double + 0.1) }
-        yMax.addChangeListener{ yMinM.maximum = (yMaxM.value as Double - 0.1) }
+        /*xMax.addChangeListener(object : ChangeListener{
+            override fun stateChanged(e: ChangeEvent?) {
+                TODO("Not yet implemented")
+            }
+        })*/
+        xMin.addChangeListener{ xMaxM.minimum = xMin.value as Double + 0.1 }
+        xMax.addChangeListener{ xMinM.maximum = xMax.value as Double - 0.1 }
+        yMin.addChangeListener{ yMaxM.minimum = yMin.value as Double + 0.1 }
+        yMax.addChangeListener{ yMinM.maximum = yMax.value as Double - 0.1 }
 
         controlPanel.layout = GroupLayout(controlPanel).apply {
             setHorizontalGroup(
