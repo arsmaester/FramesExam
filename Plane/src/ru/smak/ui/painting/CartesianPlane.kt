@@ -1,6 +1,8 @@
 package ru.smak.ui.painting
 
+import math.Newton
 import kotlin.math.max
+import kotlin.math.sqrt
 
 class CartesianPlane(
     xMin: Double,
@@ -19,11 +21,11 @@ class CartesianPlane(
     private var ySize: Int = 1
 
     /**
-     * Номер последнего видимого ппикселя по ширине
+     * Номер последнего видимого пикселя по ширине
      */
     var width: Int
         get() = xSize - 1
-        set(value){
+        set(value) {
             xSize = max(1, value)
         }
 
@@ -32,7 +34,7 @@ class CartesianPlane(
      */
     var height: Int
         get() = ySize - 1
-        set(value){
+        set(value) {
             ySize = max(1, value)
         }
 
@@ -41,16 +43,19 @@ class CartesianPlane(
      */
     var xMin: Double = 0.0
         private set
+
     /**
      * Правая граница отображаемого отрезка по оси абсцисс
      */
     var xMax: Double = 0.0
         private set
+
     /**
      * Нижняя граница отображаемого отрезка по оси ординат
      */
     var yMin: Double = 0.0
         private set
+
     /**
      * Верхняя граница отображаемого отрезка по оси ординат
      */
@@ -68,6 +73,7 @@ class CartesianPlane(
             xMax = value.second + k
             if (xMin > xMax) xMin = xMax.also { xMax = xMin }
         }
+
     /**
      * Свойство для задания границ отображаемого отрезка по оси ординат
      */
@@ -92,7 +98,7 @@ class CartesianPlane(
     val yDen: Double
         get() = height / (yMax - yMin)
 
-    init{
+    init {
         xSegment = Pair(xMin, xMax)
         ySegment = Pair(yMin, yMax)
     }
@@ -147,5 +153,30 @@ class CartesianPlane(
         if (_y < -height) _y = -height
         if (_y > 2 * height) _y = 2 * height
         return yMax - _y / yDen
+    }
+
+    fun addPoint(pair: Pair<Double, Double>) {
+        if (clickedPoints.isEmpty()) {
+            clickedPoints.add(pair)
+            p.addPoint(pair)
+        } else {
+            if (clickedPoints.all { distance(pair, it) > 0 }
+            ) {
+                p.addPoint(pair)
+                clickedPoints.add(pair)
+            }
+        }
+    }
+
+    var p = Newton(mutableMapOf())
+
+//    private var interpolationPoints:
+
+    private var clickedPoints: MutableList<Pair<Double, Double>> = mutableListOf()
+
+    private fun distance(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Double {
+        return sqrt(
+            (p1.first - p2.first) * (p1.first - p2.first) + (p1.second - p2.second) * (p1.second - p2.second)
+        )
     }
 }
