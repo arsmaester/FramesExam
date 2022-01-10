@@ -42,6 +42,7 @@ class MainFrame : JFrame() {
     private val tMaxInput: JTextField
 
     init {
+//        Callable
         minimumSize = minDim
         defaultCloseOperation = EXIT_ON_CLOSE
         tMinLbl = JLabel("Минимальное t: ")
@@ -223,8 +224,6 @@ class MainFrame : JFrame() {
         YMax = JLabel("YMax:")
         set2 = JLabel("Отображать график явной функции")
         set3 = JLabel("Отображать график параметрической функции")
-
-
 
         controlPanel.layout = GroupLayout(controlPanel).apply {
             linkSize(XMin, xMin)

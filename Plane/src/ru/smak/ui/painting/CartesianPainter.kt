@@ -149,7 +149,14 @@ class CartesianPainter(private val plane: CartesianPlane) : Painter {
         }
     }
 
-    private fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
+//    private fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
+    private fun Double.round(digits: Int): Double {
+    return try {
+        "%.${digits}f".format(this).toDouble()
+    } catch (e: NumberFormatException) {
+        "%.${digits}f".format(this).replace(",", ".").toDouble()
+    }
+}
 
 }
 
