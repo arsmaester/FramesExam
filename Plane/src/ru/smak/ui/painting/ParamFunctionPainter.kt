@@ -25,10 +25,10 @@ class ParamFunctionPainter(private val plane: CartesianPlane) : Painter {
                 var i = tMin
                 while (i < tMax) {
                     drawLine(
-                        xCrt2Scr(x(i.toDouble())),
-                        yCrt2Scr(y(i.toDouble())),
-                        xCrt2Scr(x((i + 0.1).toDouble())),
-                        yCrt2Scr(y((i + 0.1).toDouble()))
+                        xCrt2Scr(x(i)),
+                        yCrt2Scr(y(i)),
+                        xCrt2Scr(x((i + 0.1))),
+                        yCrt2Scr(y((i + 0.1)))
                     )
                     i += 0.1
                 }

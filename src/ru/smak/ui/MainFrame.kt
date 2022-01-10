@@ -6,6 +6,7 @@ import java.awt.Color
 import java.awt.Dimension
 import java.awt.Point
 import java.awt.event.*
+import java.util.concurrent.Callable
 import javax.swing.*
 import kotlin.math.cos
 import kotlin.math.pow
@@ -96,8 +97,6 @@ class MainFrame : JFrame() {
         functionPainter.funColor = Color.BLACK
         paramFunctionPainter.x = pfX
         paramFunctionPainter.y = pfY
-        paramFunctionPainter.tMin = -10.0
-        paramFunctionPainter.tMax = 10.0
         paramFunctionPainter.funColor = Color.BLUE
 
         val painters = mutableListOf(cartesianPainter, functionPainter, paramFunctionPainter)
@@ -139,23 +138,9 @@ class MainFrame : JFrame() {
 //            }
 //        })
 
-//        cb1.isSelected = true
         cb2.isSelected = true
         cb3.isSelected = true
 
-
-//        cb1.addItemListener { e ->
-//            if (!cb1.isSelected) {
-////                cb1.isSelected = false
-//                painters.remove(pointsPainter)
-//                mainPanel.repaint()
-//            } else {
-//                painters.add(pointsPainter)
-////                cb1.isSelected = true
-//
-//                mainPanel.repaint()
-//            }
-//        }
 
         cb2.addItemListener { e ->
             if (!cb2.isSelected) {
