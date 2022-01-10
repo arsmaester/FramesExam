@@ -20,7 +20,8 @@ class MainFrame : JFrame() {
     private val XMax: JLabel
     private val YMin: JLabel
     private val YMax: JLabel
-    private val set1: JLabel
+
+    //    private val set1: JLabel
     private val set2: JLabel
     private val set3: JLabel
     private val xMin: JSpinner
@@ -28,10 +29,12 @@ class MainFrame : JFrame() {
     private val yMin: JSpinner
     private val yMax: JSpinner
     private val tf: JTextField
-    private val cb1: JCheckBox
+
+    //    private val cb1: JCheckBox
     private val cb2: JCheckBox
     private val cb3: JCheckBox
-    private val cjp1: JPanel
+
+    //    private val cjp1: JPanel
     private val cjp2: JPanel
     private val cjp3: JPanel
     private val xMinM: SpinnerNumberModel
@@ -43,11 +46,11 @@ class MainFrame : JFrame() {
         minimumSize = minDim
         defaultCloseOperation = EXIT_ON_CLOSE
 
-        cb1 = JCheckBox()
+//        cb1 = JCheckBox()
         cb2 = JCheckBox()
         cb3 = JCheckBox()
-        cjp1 = JPanel()
-        cjp1.background = Color.RED
+//        cjp1 = JPanel()
+//        cjp1.background = Color.RED
         cjp2 = JPanel()
         cjp2.background = Color.BLACK
         cjp2.setSize(1, 1)
@@ -75,12 +78,8 @@ class MainFrame : JFrame() {
 
         val cartesianPainter = CartesianPainter(plane)
         val functionPainter = FunctionPainter(plane)
-//        val functionPainter0 = FunctionPainter(plane)
         val paramFunctionPainter = ParamFunctionPainter(plane)
-        val derivativePainter = FunctionPainter(plane)
-        val pointsPainter = PointsPainter(plane)
 
-        val N = 7
 
         val f = { x: Double ->
             x * x + 2.0.pow(x)
@@ -95,20 +94,13 @@ class MainFrame : JFrame() {
         }
 
 
-        for (i in 1..N) {
-            val x_i = xMin.value as Double + (xMax.value as Double - xMin.value as Double) * i / N
-            plane.p.addPoint(Pair(x_i, f(x_i)))
-        }
-
         functionPainter.function = f
-        functionPainter.funColor = Color.CYAN
+        functionPainter.funColor = Color.BLACK
         paramFunctionPainter.x = pfX
         paramFunctionPainter.y = pfY
-//        functionPainter.function = plane.p
-//        derivativePainter.function = plane.p.derivative()
-//        derivativePainter.funColor = Color.BLUE
+        paramFunctionPainter.funColor = Color.BLUE
 
-        val painters = mutableListOf(cartesianPainter, functionPainter, pointsPainter, paramFunctionPainter)
+        val painters = mutableListOf(cartesianPainter, functionPainter, paramFunctionPainter)
 
         mainPanel = GraphicsPanel(painters).apply {
             background = Color.WHITE
@@ -137,23 +129,23 @@ class MainFrame : JFrame() {
 //            }
 //        })
 
-        cb1.isSelected = true
+//        cb1.isSelected = true
         cb2.isSelected = true
         cb3.isSelected = true
 
 
-        cb1.addItemListener { e ->
-            if (!cb1.isSelected) {
-//                cb1.isSelected = false
-                painters.remove(pointsPainter)
-                mainPanel.repaint()
-            } else {
-                painters.add(pointsPainter)
-//                cb1.isSelected = true
-
-                mainPanel.repaint()
-            }
-        }
+//        cb1.addItemListener { e ->
+//            if (!cb1.isSelected) {
+////                cb1.isSelected = false
+//                painters.remove(pointsPainter)
+//                mainPanel.repaint()
+//            } else {
+//                painters.add(pointsPainter)
+////                cb1.isSelected = true
+//
+//                mainPanel.repaint()
+//            }
+//        }
 
         cb2.addItemListener { e ->
             if (!cb2.isSelected) {
@@ -167,29 +159,29 @@ class MainFrame : JFrame() {
 
         cb3.addItemListener { e ->
             if (!cb3.isSelected) {
-                painters.remove(derivativePainter)
+                painters.remove(paramFunctionPainter)
                 mainPanel.repaint()
             } else {
-                painters.add(derivativePainter)
+                painters.add(paramFunctionPainter)
                 mainPanel.repaint()
             }
         }
 
-        cjp1.addMouseListener(object : MouseAdapter() {
-            override fun mouseClicked(e: MouseEvent?) {
-                if (e != null) {
-                    val color = JColorChooser.showDialog(null, "Выберите цвет точек", cjp1.background)
-                    cjp1.background = color
-                    pointsPainter.pointsColor = color
-                    mainPanel.repaint()
-                }
-            }
-        })
+//        cjp1.addMouseListener(object : MouseAdapter() {
+//            override fun mouseClicked(e: MouseEvent?) {
+//                if (e != null) {
+//                    val color = JColorChooser.showDialog(null, "Выберите цвет точек", cjp1.background)
+//                    cjp1.background = color
+//                    pointsPainter.pointsColor = color
+//                    mainPanel.repaint()
+//                }
+//            }
+//        })
 
         cjp2.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
                 if (e != null) {
-                    val color = JColorChooser.showDialog(null, "Выберите цвет функции", cjp2.background)
+                    val color = JColorChooser.showDialog(null, "Выберите цвет явной функции", cjp2.background)
                     cjp2.background = color
                     functionPainter.funColor = color
                     mainPanel.repaint()
@@ -200,9 +192,9 @@ class MainFrame : JFrame() {
         cjp3.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
                 if (e != null) {
-                    val color = JColorChooser.showDialog(null, "Выберите цвет производной", cjp3.background)
+                    val color = JColorChooser.showDialog(null, "Выберите цвет параметрической функции", cjp3.background)
                     cjp3.background = color
-                    derivativePainter.funColor = color
+                    paramFunctionPainter.funColor = color
                     mainPanel.repaint()
                 }
             }
@@ -234,9 +226,9 @@ class MainFrame : JFrame() {
         XMax = JLabel("XMax:")
         YMin = JLabel("YMin:")
         YMax = JLabel("YMax:")
-        set1 = JLabel("Отображать точки")
-        set2 = JLabel("Отображать график функции")
-        set3 = JLabel("Отображать производную")
+//        set1 = JLabel("Отображать точки")
+        set2 = JLabel("Отображать график явной функции")
+        set3 = JLabel("Отображать график параметрической функции")
 
 
 
@@ -245,7 +237,7 @@ class MainFrame : JFrame() {
             linkSize(XMax, xMax)
             linkSize(YMin, yMin)
             linkSize(YMax, yMax)
-            linkSize(cjp1, cjp2, cjp3, cb1, cb2, cb3)
+            linkSize(cjp2, cjp3, cb2, cb3)
 
 
             setHorizontalGroup(
@@ -281,10 +273,10 @@ class MainFrame : JFrame() {
                         )
                     )
                     .addGap(50)
-                    .addGroup(createParallelGroup().addComponent(cb1).addComponent(cb2).addComponent(cb3))
-                    .addGroup(createParallelGroup().addComponent(set1).addComponent(set2).addComponent(set3))
+                    .addGroup(createParallelGroup().addComponent(cb2).addComponent(cb3))
+                    .addGroup(createParallelGroup().addComponent(set2).addComponent(set3))
                     .addGap(10)
-                    .addGroup(createParallelGroup().addComponent(cjp1).addComponent(cjp2).addComponent(cjp3))
+                    .addGroup(createParallelGroup().addComponent(cjp2).addComponent(cjp3))
             )
             setVerticalGroup(
                 createParallelGroup(GroupLayout.Alignment.CENTER).addGroup(
@@ -327,9 +319,9 @@ class MainFrame : JFrame() {
                     createSequentialGroup()
                         .addGroup(
                             createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(cb1)
-                                .addComponent(set1)
-                                .addComponent(cjp1)
+//                                .addComponent(cb1)
+//                                .addComponent(set1)
+//                                .addComponent(cjp1)
                         )
                         .addGap(2)
                         .addGroup(
