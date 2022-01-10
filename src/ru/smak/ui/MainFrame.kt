@@ -20,8 +20,6 @@ class MainFrame : JFrame() {
     private val XMax: JLabel
     private val YMin: JLabel
     private val YMax: JLabel
-
-    //    private val set1: JLabel
     private val set2: JLabel
     private val set3: JLabel
     private val xMin: JSpinner
@@ -29,28 +27,28 @@ class MainFrame : JFrame() {
     private val yMin: JSpinner
     private val yMax: JSpinner
     private val tf: JTextField
-
-    //    private val cb1: JCheckBox
     private val cb2: JCheckBox
     private val cb3: JCheckBox
-
-    //    private val cjp1: JPanel
     private val cjp2: JPanel
     private val cjp3: JPanel
     private val xMinM: SpinnerNumberModel
     private val xMaxM: SpinnerNumberModel
     private val yMinM: SpinnerNumberModel
     private val yMaxM: SpinnerNumberModel
+    private val tMinLbl: JLabel
+    private val tMaxLbl: JLabel
+    private val tMinInput: JTextField
+    private val tMaxInput: JTextField
 
     init {
         minimumSize = minDim
         defaultCloseOperation = EXIT_ON_CLOSE
-
-//        cb1 = JCheckBox()
+        tMinLbl = JLabel("Минимальное t: ")
+        tMaxLbl = JLabel("Максимальное t: ")
+        tMinInput = JTextField("-10")
+        tMaxInput = JTextField("10")
         cb2 = JCheckBox()
         cb3 = JCheckBox()
-//        cjp1 = JPanel()
-//        cjp1.background = Color.RED
         cjp2 = JPanel()
         cjp2.background = Color.BLACK
         cjp2.setSize(1, 1)
@@ -98,6 +96,8 @@ class MainFrame : JFrame() {
         functionPainter.funColor = Color.BLACK
         paramFunctionPainter.x = pfX
         paramFunctionPainter.y = pfY
+        paramFunctionPainter.tMin = -10.0
+        paramFunctionPainter.tMax = 10.0
         paramFunctionPainter.funColor = Color.BLUE
 
         val painters = mutableListOf(cartesianPainter, functionPainter, paramFunctionPainter)
@@ -113,6 +113,16 @@ class MainFrame : JFrame() {
                 mainPanel.repaint()
             }
         })
+
+        tMinInput.addActionListener() {
+            paramFunctionPainter.tMin = tMinInput.text.toDouble()
+            mainPanel.repaint()
+        }
+
+        tMaxInput.addActionListener() {
+            paramFunctionPainter.tMax = tMaxInput.text.toDouble()
+            mainPanel.repaint()
+        }
 
 //        mainPanel.addMouseListener(object : MouseAdapter() {
 //            override fun mouseClicked(e: MouseEvent?) {
@@ -226,7 +236,6 @@ class MainFrame : JFrame() {
         XMax = JLabel("XMax:")
         YMin = JLabel("YMin:")
         YMax = JLabel("YMax:")
-//        set1 = JLabel("Отображать точки")
         set2 = JLabel("Отображать график явной функции")
         set3 = JLabel("Отображать график параметрической функции")
 
@@ -238,7 +247,8 @@ class MainFrame : JFrame() {
             linkSize(YMin, yMin)
             linkSize(YMax, yMax)
             linkSize(cjp2, cjp3, cb2, cb3)
-
+            linkSize(tMinLbl, tMaxLbl)
+            linkSize(tMinInput, tMaxInput)
 
             setHorizontalGroup(
                 createSequentialGroup()
@@ -277,6 +287,12 @@ class MainFrame : JFrame() {
                     .addGroup(createParallelGroup().addComponent(set2).addComponent(set3))
                     .addGap(10)
                     .addGroup(createParallelGroup().addComponent(cjp2).addComponent(cjp3))
+                    .addGap(10)
+                    .addGroup(createParallelGroup().addComponent(tMinLbl).addComponent(tMaxLbl))
+                    .addGap(10)
+                    .addGroup(createParallelGroup()
+                        .addComponent(tMinInput, 50, 50, 50)
+                        .addComponent(tMaxInput, 50, 50, 50))
             )
             setVerticalGroup(
                 createParallelGroup(GroupLayout.Alignment.CENTER).addGroup(
@@ -329,6 +345,8 @@ class MainFrame : JFrame() {
                                 .addComponent(cb2)
                                 .addComponent(set2)
                                 .addComponent(cjp2)
+                                .addComponent(tMinLbl)
+                                .addComponent(tMinInput)
                         )
                         .addGap(2)
                         .addGroup(
@@ -336,13 +354,15 @@ class MainFrame : JFrame() {
                                 .addComponent(cb3)
                                 .addComponent(set3)
                                 .addComponent(cjp3)
+                                .addComponent(tMaxLbl)
+                                .addComponent(tMaxInput)
                         )
                 )
             )
         }
         layout = GroupLayout(contentPane).apply {
-            setAutoCreateGaps(true);
-            setAutoCreateContainerGaps(true);
+            autoCreateGaps = true;
+            autoCreateContainerGaps = true;
             setVerticalGroup(
                 createSequentialGroup()
                     .addComponent(mainPanel)
